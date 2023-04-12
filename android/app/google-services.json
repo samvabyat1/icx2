@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "943595718357",
+    "firebase_url": "https://icxpro-default-rtdb.firebaseio.com",
+    "project_id": "icxpro",
+    "storage_bucket": "icxpro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943595718357:android:c4de7cef41220f92b5045c",
+        "android_client_info": {
+          "package_name": "com.samt.icx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943595718357-mrn2c6qmti947cipopin62nn52lc6kh6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJtjD2O8UxmgpKW28AxW2rRF7bc5H0wnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943595718357-mrn2c6qmti947cipopin62nn52lc6kh6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943595718357:android:19e414ee67a10640b5045c",
+        "android_client_info": {
+          "package_name": "com.samt.icx2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943595718357-mrn2c6qmti947cipopin62nn52lc6kh6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJtjD2O8UxmgpKW28AxW2rRF7bc5H0wnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943595718357-mrn2c6qmti947cipopin62nn52lc6kh6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
