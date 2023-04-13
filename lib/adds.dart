@@ -59,11 +59,15 @@ class _AddStatusState extends State<AddStatus> {
       body: Container(
         decoration: BoxDecoration(
             image: (_image == null)
-                ?(widget.mystatus.isEmpty)? (Home.profilepic.isEmpty)
-                    ? DecorationImage(image: AssetImage('assets/feedmage.jpg'))
+                ? (widget.mystatus.isEmpty)
+                    ? (Home.profilepic.isEmpty)
+                        ? DecorationImage(
+                            image: AssetImage('assets/feedmage.jpg'))
+                        : DecorationImage(
+                            image: NetworkImage(Home.profilepic),
+                            fit: BoxFit.cover)
                     : DecorationImage(
-                        image: NetworkImage(Home.profilepic), fit: BoxFit.cover):DecorationImage(
-                    image: NetworkImage(widget.mystatus), fit: BoxFit.cover)
+                        image: NetworkImage(widget.mystatus), fit: BoxFit.cover)
                 : DecorationImage(
                     image: FileImage(_image!), fit: BoxFit.cover)),
         child: Center(
@@ -202,6 +206,7 @@ class _AddStatusState extends State<AddStatus> {
                 ref.child('status').set(url.toString());
 
                 Navigator.pop(context);
+                Fluttertoast.showToast(msg: 'Status uploaded');
               } catch (e) {
                 Fluttertoast.showToast(msg: 'Something went wrong!');
                 print(e);

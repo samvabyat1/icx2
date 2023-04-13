@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:icx2/acc.dart';
 import 'package:intl/intl.dart';
+
+import 'home.dart';
 
 class Feeditem extends StatefulWidget {
   final String value;
@@ -23,17 +26,28 @@ class _FeeditemState extends State<Feeditem> {
     DatabaseReference refp =
         FirebaseDatabase.instance.ref().child('posts').child(widget.value);
     refp.onValue.listen((event) {
-      setState(() {
-        postby = event.snapshot.child('by').value.toString();
-        img = event.snapshot.child('img').value.toString();
+      if (mounted) {
+        setState(() {
+          postby = event.snapshot.child('by').value.toString();
+          img = event.snapshot.child('img').value.toString();
 
-        for (final child in event.snapshot.child('likes').children) {
-          likes.add(child.value.toString());
-        }
-        for (final child in event.snapshot.child('comments').children) {
-          comments.add(child.value.toString());
-        }
-      });
+          for (final child in event.snapshot.child('likes').children) {
+            likes.add(child.value.toString());
+          }
+          if (likes.contains(Home.username)) {
+            setState(() {
+              isliked = true;
+            });
+          }else{
+            setState(() {
+              isliked = false;
+            });
+          }
+          for (final child in event.snapshot.child('comments').children) {
+            comments.add(child.value.toString());
+          }
+        });
+      }
     });
 
     DatabaseReference ref =
@@ -56,6 +70,23 @@ class _FeeditemState extends State<Feeditem> {
   }
 
   void liked() {
+    if (isliked == false) {
+      FirebaseDatabase.instance
+          .ref()
+          .child('posts')
+          .child(widget.value)
+          .child('likes')
+          .child(Home.username)
+          .set(Home.username);
+    } else {
+      FirebaseDatabase.instance
+          .ref()
+          .child('posts')
+          .child(widget.value)
+          .child('likes')
+          .child(Home.username)
+          .set(null);
+    }
     setState(() {
       isliked = !isliked;
     });
@@ -81,6 +112,51 @@ class _FeeditemState extends State<Feeditem> {
                     toastLength: Toast.LENGTH_SHORT,
                   );
                   liked();
+                },
+                onLongPress: () {
+                  if (postby == Home.username) {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 25, horizontal: 15),
+                        child: OutlinedButton(
+                            onPressed: () async {
+                              try {
+                                FirebaseDatabase.instance
+                                    .ref()
+                                    .child('users')
+                                    .child(Home.username)
+                                    .child('posts')
+                                    .child(widget.value)
+                                    .set(null);
+
+                                await FirebaseStorage.instance
+                                    .ref()
+                                    .child('posts')
+                                    .child(widget.value)
+                                    .delete();
+
+                                Fluttertoast.showToast(msg: 'Post deleted');
+                                Navigator.pop(context);
+                              } on Exception catch (e) {
+                                Fluttertoast.showToast(
+                                    msg: 'Something went wrong!');
+                              }
+                            },
+                            style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                side: BorderSide(
+                                  color: Colors.redAccent,
+                                  width: 3,
+                                )),
+                            child: Text(
+                              'Delete post',
+                            )),
+                      ),
+                    );
+                  }
                 },
                 child: (img.isEmpty || img == 'null')
                     ? Image.asset('assets/feedmage.jpg')

@@ -185,7 +185,9 @@ class _PostState extends State<Post> {
                 ref.child('by').set(Home.username);
 
                 ref2.child('posts').child(d).set(d);
+
                 Navigator.pop(context);
+                Fluttertoast.showToast(msg: 'Post uploaded');
               } catch (e) {
                 Fluttertoast.showToast(msg: 'Something went wrong!');
                 print(e);

@@ -559,32 +559,5 @@ class _EditProfileState extends State<EditProfile> {
 }
 
 
-// Container(
-//                                           decoration: BoxDecoration(
-//                                             // color: Colors.blue[900],
-//                                             gradient: LinearGradient(
-//                                               colors: [
-//                                                 Colors.pinkAccent,
-//                                                 Colors.deepPurpleAccent,
-//                                                 Colors.red
-//                                               ],
-//                                             ),
 
-//                                             borderRadius:
-//                                                 BorderRadius.circular(50),
-//                                           ),
-//                                           child: Padding(
-//                                             padding: const EdgeInsets.symmetric(
-//                                                 horizontal: 10, vertical: 4),
-//                                             child: Text(
-//                                               'Designed by Samvabya',
-//                                               style: TextStyle(
-//                                                 color: Colors.white,
-//                                                 fontWeight: FontWeight.bold,
-//                                                 fontSize: 10,
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       )
 

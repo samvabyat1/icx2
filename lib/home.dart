@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:icx2/adds.dart';
 import 'package:icx2/msg.dart';
@@ -353,6 +354,44 @@ class _HomeState extends State<Home> {
                                             .toString(),
                                       ),
                                     ));
+                              }
+                            },
+                            onLongPress: () {
+                              if (index == 0 &&
+                                  followingstatus[0]['status']
+                                      .toString()
+                                      .isNotEmpty) {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 25, horizontal: 15),
+                                    child: OutlinedButton(
+                                        onPressed: () {
+                                          FirebaseDatabase.instance
+                                              .ref()
+                                              .child('users')
+                                              .child(Home.username)
+                                              .child('status')
+                                              .set(null);
+
+                                          Fluttertoast.showToast(
+                                              msg: 'Status deleted');
+                                          Navigator.pop(context);
+                                        },
+                                        style: OutlinedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            side: BorderSide(
+                                              color: Colors.redAccent,
+                                              width: 3,
+                                            )),
+                                        child: Text(
+                                          'Delete status',
+                                        )),
+                                  ),
+                                );
                               }
                             },
                             child: Container(
