@@ -7,6 +7,15 @@ Redesigned instagram with all important features like posts, stories, profile, m
 
 **Completed in just 2 days**
 
+## Templates
+
+![Untitled.jpg](https://i.postimg.cc/524mn5jt/Untitled.jpg)
+
+![Untitled.jpg](https://i.postimg.cc/BZrGRbGD/Untitled1.jpg)
+
+![Untitled.jpg](https://i.postimg.cc/524mn5jt/Untitled.jpg)
+
+
 ## Documentation
 
 [Install app](https://mega.nz/folder/8UYHWaDL#bac2jfIjZ2-Vzfrs0uQwAQ)
