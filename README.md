@@ -2,6 +2,7 @@
 # Instagram redesigned with backend
 
 Redesigned instagram with all important features like posts, stories, profile, messaging, and more.
+And comes with a premium look and feel. 
 
 **This project showcases my special skills, i.e., UI/UX and Fast production. 
 
