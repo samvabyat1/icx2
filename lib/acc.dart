@@ -35,6 +35,10 @@ class _AccountState extends State<Account> {
     ref.onValue.listen((event) async {
       if (mounted) {
         setState(() {
+    posts = [];
+    followers = [];
+    following = [];
+    postimg = [];
           profilepic = (event.snapshot.child('profile').exists)
               ? event.snapshot.child('profile').value.toString()
               : '';
@@ -58,8 +62,8 @@ class _AccountState extends State<Account> {
             await refp.child(child.value.toString()).child('img').get();
         if (mounted) {
           setState(() {
-            posts.add(child.value.toString());
-            postimg.add(snapshot.value.toString());
+            posts.insert(0, child.value.toString());
+            postimg.insert(0, snapshot.value.toString());
           });
         }
       }
@@ -388,7 +392,7 @@ class _AccountState extends State<Account> {
                                     Feedzoom(postindex: posts[index]),
                               ));
                         },
-                        child: Image.network(postimg[index]),
+                        child: Image.network(postimg[index], fit: BoxFit.cover),
                       ),
                     ),
                   )
@@ -557,7 +561,3 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 }
-
-
-
-

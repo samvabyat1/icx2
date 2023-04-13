@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
@@ -21,6 +22,7 @@ class _ViewStatusState extends State<ViewStatus> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     // TODO: implement initState
     controller = AnimationController(
       /// [AnimationController]s can be created with `vsync: this` because of
@@ -39,6 +41,8 @@ class _ViewStatusState extends State<ViewStatus> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
     controller.dispose();
     super.dispose();
   }

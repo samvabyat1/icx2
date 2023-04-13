@@ -3,6 +3,8 @@
 
 Redesigned instagram with all important features like posts, stories, profile, messaging, and more.
 
+**This project showcases my special skills, i.e., UI/UX and Fast production. 
+
 **Completed in just 2 days**
 
 ## Documentation

@@ -115,7 +115,7 @@ class _PostState extends State<Post> {
                             ? Icon(Icons.add)
                             : AspectRatio(
                                 aspectRatio: 1,
-                                child: Image.file(_image!, fit: BoxFit.cover)),
+                                child: Image.file(_image!, )),
                       ),
                       Positioned(
                         bottom: 15,

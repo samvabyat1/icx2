@@ -28,23 +28,28 @@ class _FeeditemState extends State<Feeditem> {
     refp.onValue.listen((event) {
       if (mounted) {
         setState(() {
+          likes = [];
+          comments = [];
+
           postby = event.snapshot.child('by').value.toString();
           img = event.snapshot.child('img').value.toString();
 
           for (final child in event.snapshot.child('likes').children) {
             likes.add(child.value.toString());
           }
+
           if (likes.contains(Home.username)) {
             setState(() {
               isliked = true;
             });
-          }else{
+          } else {
             setState(() {
               isliked = false;
             });
           }
           for (final child in event.snapshot.child('comments').children) {
-            comments.add(child.value.toString());
+            comments.add(
+                {'by': child.key.toString(), 'msg': child.value.toString()});
           }
         });
       }
@@ -54,11 +59,13 @@ class _FeeditemState extends State<Feeditem> {
         FirebaseDatabase.instance.ref().child('users').child(postby);
 
     ref.onValue.listen((event) {
-      setState(() {
-        profilepic = (event.snapshot.child('profile').exists)
-            ? event.snapshot.child('profile').value.toString()
-            : '';
-      });
+      if (mounted) {
+        setState(() {
+          profilepic = (event.snapshot.child('profile').exists)
+              ? event.snapshot.child('profile').value.toString()
+              : '';
+        });
+      }
     });
   }
 
@@ -131,6 +138,12 @@ class _FeeditemState extends State<Feeditem> {
                                     .child(widget.value)
                                     .set(null);
 
+                                FirebaseDatabase.instance
+                                    .ref()
+                                    .child('posts')
+                                    .child(widget.value)
+                                    .set(null);
+
                                 await FirebaseStorage.instance
                                     .ref()
                                     .child('posts')
@@ -138,6 +151,7 @@ class _FeeditemState extends State<Feeditem> {
                                     .delete();
 
                                 Fluttertoast.showToast(msg: 'Post deleted');
+                                Navigator.pop(context);
                                 Navigator.pop(context);
                               } on Exception catch (e) {
                                 Fluttertoast.showToast(
@@ -238,7 +252,15 @@ class _FeeditemState extends State<Feeditem> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) => Comment(
+                            Comments: comments,
+                            value: widget.value,
+                          ),
+                        );
+                      },
                       icon: Icon(
                         CupertinoIcons.chat_bubble,
                         color: Colors.white,
@@ -257,6 +279,164 @@ class _FeeditemState extends State<Feeditem> {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class Comment extends StatefulWidget {
+  final List<dynamic> Comments;
+  final String value;
+  const Comment({super.key, required this.Comments, required this.value});
+
+  @override
+  State<Comment> createState() => _CommentState();
+}
+
+class _CommentState extends State<Comment> {
+  var mycomment = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: (widget.Comments.isEmpty)
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return SweepGradient(
+                        colors: [
+                          Colors.pinkAccent,
+                          Colors.deepPurpleAccent,
+                          Colors.red
+                        ],
+                      ).createShader(bounds);
+                    },
+                    child: Icon(
+                      CupertinoIcons.chat_bubble,
+                      color: Colors.purpleAccent,
+                      size: 70,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "No comments",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Be the first to comment.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 14,
+                    ),
+                  )
+                ],
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ListView.builder(
+                itemCount: widget.Comments.length,
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.pink[100],
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: RichText(
+                          text: TextSpan(
+                              text: '${widget.Comments[index]['by']}: ',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                              children: [
+                            TextSpan(
+                                text: '${widget.Comments[index]['msg']}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                ))
+                          ])),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.only(bottom: 10, right: 10, left: 10),
+        child: TextField(
+          controller: mycomment,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+              onPressed: () {
+                FirebaseDatabase.instance
+                    .ref()
+                    .child('posts')
+                    .child(widget.value)
+                    .child('comments')
+                    .child(Home.username)
+                    .set(mycomment.text);
+
+                setState(() {
+                  mycomment.text = '';
+                });
+                Navigator.pop(context);
+              },
+              icon: ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return SweepGradient(
+                    colors: [
+                      Colors.pinkAccent,
+                      Colors.deepPurpleAccent,
+                      Colors.red
+                    ],
+                  ).createShader(bounds);
+                },
+                child: Icon(
+                  CupertinoIcons.paperplane_fill,
+                  color: Colors.purpleAccent,
+                  size: 30,
+                ),
+              ),
+            ),
+            hintText: 'Write a comment',
+            hintStyle: TextStyle(
+              color: Colors.black54,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: Colors.black45,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: Colors.black,
+                width: 2,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

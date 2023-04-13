@@ -42,6 +42,11 @@ class _HomeState extends State<Home> {
     Home.username = prefs.getString('username').toString();
     ref.onValue.listen((event) {
       setState(() {
+        followingposts = [];
+        followingstatus = [
+          {'following': '', 'status': ''}
+        ];
+        
         Home.profilepic =
             (event.snapshot.child(Home.username).child('profile').exists)
                 ? event.snapshot
@@ -70,7 +75,7 @@ class _HomeState extends State<Home> {
             .listen((event1) {
           for (final child in event1.snapshot.children) {
             setState(() {
-              followingposts.add(child.value.toString());
+              followingposts.insert(0, child.value.toString());
             });
           }
         });
@@ -366,30 +371,66 @@ class _HomeState extends State<Home> {
                                   builder: (context) => Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 25, horizontal: 15),
-                                    child: OutlinedButton(
-                                        onPressed: () {
-                                          FirebaseDatabase.instance
-                                              .ref()
-                                              .child('users')
-                                              .child(Home.username)
-                                              .child('status')
-                                              .set(null);
-
-                                          Fluttertoast.showToast(
-                                              msg: 'Status deleted');
-                                          Navigator.pop(context);
-                                        },
-                                        style: OutlinedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            side: BorderSide(
-                                              color: Colors.redAccent,
-                                              width: 3,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        OutlinedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              Navigator.push(
+                                                  context,
+                                                  CupertinoPageRoute(
+                                                    builder: (context) =>
+                                                        ViewStatus(
+                                                      mystatus:
+                                                          followingstatus[0]
+                                                                  ['status']
+                                                              .toString(),
+                                                    ),
+                                                  ));
+                                            },
+                                            style: OutlinedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                side: BorderSide(
+                                                  color: Colors.purpleAccent,
+                                                  width: 3,
+                                                )),
+                                            child: Text(
+                                              'View status',
+                                              style: TextStyle(
+                                                  color: Colors.purpleAccent),
                                             )),
-                                        child: Text(
-                                          'Delete status',
-                                        )),
+                                        OutlinedButton(
+                                            onPressed: () {
+                                              FirebaseDatabase.instance
+                                                  .ref()
+                                                  .child('users')
+                                                  .child(Home.username)
+                                                  .child('status')
+                                                  .set(null);
+
+                                              Fluttertoast.showToast(
+                                                  msg: 'Status deleted');
+                                              Navigator.pop(context);
+                                            },
+                                            style: OutlinedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                side: BorderSide(
+                                                  color: Colors.redAccent,
+                                                  width: 3,
+                                                )),
+                                            child: Text(
+                                              'Delete status',
+                                            )),
+                                      ],
+                                    ),
                                   ),
                                 );
                               }
