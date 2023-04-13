@@ -3,6 +3,7 @@
 
 Redesigned instagram with all important features like posts, stories, profile, messaging, and more.
 
+**Completed in just 2 days**
 
 ## Documentation
 
