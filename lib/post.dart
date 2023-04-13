@@ -28,7 +28,8 @@ class _PostState extends State<Post> {
   File? _image;
   Future _pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: source);
+      final image =
+          await ImagePicker().pickImage(source: source, imageQuality: 50);
       if (image == null) return;
       File? img = File(image.path);
       img = await _cropImage(imageFile: img);
@@ -115,7 +116,9 @@ class _PostState extends State<Post> {
                             ? Icon(Icons.add)
                             : AspectRatio(
                                 aspectRatio: 1,
-                                child: Image.file(_image!, )),
+                                child: Image.file(
+                                  _image!,
+                                )),
                       ),
                       Positioned(
                         bottom: 15,
@@ -164,7 +167,8 @@ class _PostState extends State<Post> {
               setState(() {
                 fabstate = false;
               });
-              Fluttertoast.showToast(msg: 'Uploading');
+              Fluttertoast.showToast(
+                  msg: 'Uploading', toastLength: Toast.LENGTH_LONG);
               var d = DateFormat('yyyyMMddHHmmss').format(DateTime.now());
               var imgref =
                   FirebaseStorage.instance.ref().child('posts').child(d);

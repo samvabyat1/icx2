@@ -47,6 +47,7 @@ dependencies:
   image_cropper: ^3.0.2
   search_page: ^2.3.0
   firebase_storage: ^11.1.0
+  palette_generator: ^0.3.3+2
 
 dev_dependencies:
   flutter_test:

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:icx2/acc.dart';
 import 'package:intl/intl.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 import 'home.dart';
 
@@ -22,6 +23,8 @@ class _FeeditemState extends State<Feeditem> {
   var postby = '', img = '', profilepic = '', likes = [], comments = [];
   var isliked = false;
 
+  var dcolor = Colors.white;
+
   void feed() {
     DatabaseReference refp =
         FirebaseDatabase.instance.ref().child('posts').child(widget.value);
@@ -33,6 +36,9 @@ class _FeeditemState extends State<Feeditem> {
 
           postby = event.snapshot.child('by').value.toString();
           img = event.snapshot.child('img').value.toString();
+          if (img.isNotEmpty) {
+            getImagePalette(NetworkImage(img));
+          }
 
           for (final child in event.snapshot.child('likes').children) {
             likes.add(child.value.toString());
@@ -74,6 +80,16 @@ class _FeeditemState extends State<Feeditem> {
     // TODO: implement initState
     super.initState();
     feed();
+  }
+
+  Future<void> getImagePalette(ImageProvider imageProvider) async {
+    final PaletteGenerator paletteGenerator =
+        await PaletteGenerator.fromImageProvider(imageProvider);
+    if (mounted && paletteGenerator.dominantColor != null) {
+      setState(() {
+        dcolor = paletteGenerator.dominantColor!.color;
+      });
+    }
   }
 
   void liked() {
@@ -172,9 +188,12 @@ class _FeeditemState extends State<Feeditem> {
                     );
                   }
                 },
-                child: (img.isEmpty || img == 'null')
-                    ? Image.asset('assets/feedmage.jpg')
-                    : Image.network(img),
+                child: Container(
+                  color: dcolor,
+                  child: (img.isEmpty || img == 'null')
+                      ? Image.asset('assets/feedmage.jpg')
+                      : Image.network(img),
+                ),
               ),
             ),
           ),

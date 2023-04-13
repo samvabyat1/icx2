@@ -433,7 +433,7 @@ class _EditProfileState extends State<EditProfile> {
   File? _image;
   Future _pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: source);
+      final image = await ImagePicker().pickImage(source: source, imageQuality: 50);
       if (image == null) return;
       File? img = File(image.path);
       img = await _cropImage(imageFile: img);
