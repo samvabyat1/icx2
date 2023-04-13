@@ -13,7 +13,7 @@ Redesigned instagram with all important features like posts, stories, profile, m
 
 ![Untitled.jpg](https://i.postimg.cc/BZrGRbGD/Untitled1.jpg)
 
-![Untitled.jpg](https://i.postimg.cc/524mn5jt/Untitled.jpg)
+![Untitled.jpg](https://i.postimg.cc/DyRRYyRD/Untitled2.jpg)
 
 
 ## Documentation
