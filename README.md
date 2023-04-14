@@ -1,7 +1,7 @@
 
 # Instagram redesigned with backend
 
-Redesigned instagram with all important features like posts, stories, profile, messaging, and more and comes with a massive premium look and feel. 
+Redesigned instagram with all important features like posts, stories, profile, messaging, and more and comes with a massive premium look and feel and responsive animations. 
 
 **Completed in just 2 days**
 
