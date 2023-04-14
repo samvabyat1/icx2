@@ -1,5 +1,5 @@
 
-# Instagram redesigned with backend
+# Instagram redesigned with new UI
 
 Redesigned instagram with all important features like posts, stories, profile, messaging, and more and comes with a massive premium look and feel and responsive animations. 
 
