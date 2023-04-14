@@ -7,6 +7,8 @@ Redesigned instagram with all important features like posts, stories, profile, m
 
 **Completed in just 2 days**
 
+Cons: Only image support is available till now. 
+
 ## Templates
 
 ![Untitled.jpg](https://i.postimg.cc/524mn5jt/Untitled.jpg)
