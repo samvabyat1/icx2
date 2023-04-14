@@ -3,11 +3,11 @@
 
 Redesigned instagram with all important features like posts, stories, profile, messaging, and more and comes with a massive premium look and feel. 
 
-**This project showcases my special skills, i.e., UI/UX and Fast production. 
-
 **Completed in just 2 days**
 
-Cons: Only image support is available till now. 
+**This project showcases my special skills, i.e., UI/UX and Fast production. 
+
+**Only image support is available till now. 
 
 ## Templates
 
